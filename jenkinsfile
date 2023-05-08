@@ -12,7 +12,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'ansible-creds', usernameVariable: 'SSH_USERNAME', passwordVariable: 'SSH_PASSWORD')]) {
                     ansiblePlaybook(
                         playbook: 'ansible-test/playbooks/web.yml',
-                        cfgFile: 'ansible-test/ansible.cfg'
+                        cfgFile: 'ansible-test/ansible.cfg',
                         user: "${SSH_USERNAME}",
                         extras: "--extra-vars 'ansible_sudo_pass=${SSH_PASSWORD}'"
                     )

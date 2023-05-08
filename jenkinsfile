@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Git Pull') {
+            steps {
+                git branch: 'main', url: 'https://github.com/myuser/myrepo.git'
+            }
+        }
+        stage('Ansible Playbook') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'my-creds', usernameVariable: 'SSH_USERNAME', passwordVariable: 'SSH_PASSWORD')]) {
+                    ansiblePlaybook(
+                        playbook: 'myrepo/playbook.yml',
+                        inventory: 'myrepo/hosts.ini',
+                        user: "${SSH_USERNAME}",
+                        extras: "--extra-vars 'ansible_ssh_pass=${SSH_PASSWORD}'"
+                    )
+                }
+            }
+        }
+    }
+}
+

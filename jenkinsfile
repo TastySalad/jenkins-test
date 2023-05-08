@@ -14,7 +14,7 @@ pipeline {
                         playbook: 'ansible-test/playbooks/web.yml',
                         cfgFile: 'ansible-test/ansible.cfg'
                         user: "${SSH_USERNAME}",
-                        extras: "--extra-vars 'ansible_ssh_pass=${SSH_PASSWORD}'"
+                        extras: "--extra-vars 'ansible_sudo_pass=${SSH_PASSWORD}'"
                     )
                 }
             }

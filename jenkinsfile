@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { node { label 'ansible-control' } }
 
     stages {
         stage('Git Pull') {
@@ -11,7 +11,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'ansible-creds', usernameVariable: 'SSH_USERNAME', passwordVariable: 'SSH_PASSWORD')]) {
                     ansiblePlaybook(
-                        playbook: 'ansible-test/playbook.yml',
+                        playbook: 'ansible-test/playbooks/web.yml',
                         cfgFile: 'ansible-test/ansible.cfg'
                         user: "${SSH_USERNAME}",
                         extras: "--extra-vars 'ansible_ssh_pass=${SSH_PASSWORD}'"

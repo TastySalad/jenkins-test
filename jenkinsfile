@@ -4,15 +4,15 @@ pipeline {
     stages {
         stage('Git Pull') {
             steps {
-                git branch: 'main', url: 'https://github.com/myuser/myrepo.git'
+                git branch: 'main', url: 'https://github.com/TastySalad/ansible-test'
             }
         }
         stage('Ansible Playbook') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'my-creds', usernameVariable: 'SSH_USERNAME', passwordVariable: 'SSH_PASSWORD')]) {
+                withCredentials([usernamePassword(credentialsId: 'ansible-creds', usernameVariable: 'SSH_USERNAME', passwordVariable: 'SSH_PASSWORD')]) {
                     ansiblePlaybook(
-                        playbook: 'myrepo/playbook.yml',
-                        inventory: 'myrepo/hosts.ini',
+                        playbook: 'ansible-test/playbook.yml',
+                        cfgFile: 'ansible-test/ansible.cfg'
                         user: "${SSH_USERNAME}",
                         extras: "--extra-vars 'ansible_ssh_pass=${SSH_PASSWORD}'"
                     )
@@ -21,4 +21,3 @@ pipeline {
         }
     }
 }
-

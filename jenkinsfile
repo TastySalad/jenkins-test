@@ -15,7 +15,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'ansible-creds', usernameVariable: 'SSH_USERNAME', passwordVariable: 'SSH_PASSWORD')]) {
                     ansiblePlaybook(
-                        playbook: '/home/sharel/workspace/ansible-test/playbooks/web.yml',                        
+                        playbook: '/home/sharel/workspace/ansible-test/playbooks/gcloud.yml',                        
                         extras: "--extra-vars 'ansible_sudo_pass=${SSH_PASSWORD}'"
                     )
                 }

@@ -11,13 +11,22 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/TastySalad/ansible-test'
             }
         }
-        stage('Ansible Playbook') {
+        stage('Ansible setup /etc/hosts playbook'){
             steps {
                 withCredentials([usernamePassword(credentialsId: 'ansible-creds', usernameVariable: 'SSH_USERNAME', passwordVariable: 'SSH_PASSWORD')]) {
                     ansiblePlaybook(
-                        playbook: '/home/sharel/workspace/ansible-test/playbooks/web.yml',
-                        //cfgFile: 'ansible-test/ansible.cfg',
-                        //user: "${SSH_USERNAME}",
+                        playbook: '/home/sharel/workspace/ansible-test/playbooks/web.yml',                        
+                        extras: "--extra-vars 'ansible_sudo_pass=${SSH_PASSWORD}'"
+                    )
+                }
+            }
+        }
+
+        stage('Ansible web Playbook') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'ansible-creds', usernameVariable: 'SSH_USERNAME', passwordVariable: 'SSH_PASSWORD')]) {
+                    ansiblePlaybook(
+                        playbook: '/home/sharel/workspace/ansible-test/playbooks/web.yml',                        
                         extras: "--extra-vars 'ansible_sudo_pass=${SSH_PASSWORD}'"
                     )
                 }

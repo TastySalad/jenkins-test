@@ -13,7 +13,7 @@ pipeline {
         }
 
         stage('Ansible setup gcp environment to have all hosts'){
-            setps {
+            steps {
                 withCredentials([usernamePassword(credentialsId: 'ansible-creds', usernameVariable: 'SSH_USERNAME', passwordVariable: 'SSH_PASSWORD')]) {
                     ansiblePlaybook(
                         playbook: '/home/sharel/workspace/ansible-test/playbooks/setup_gcp_env.yml',
